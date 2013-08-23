@@ -1,0 +1,59 @@
+.TH smoothscan 1
+.SH NAME
+smoothscan \- convert scanned document pages to a vectorized font pdf
+.SH SYNOPSIS
+.B smoothscan 
+[debug-options] [options] -o output.pdf input_files
+.SH DESCRIPTION
+.B smoothscan 
+is a document processor. It will analyze the input page images, and create a dictionary of similar images. One 'o' on the page should have similar enough shape to another 'o' of the same font, so we can save space by only storing the data for 'o' once, and just referring to that stored data for all other 'o's on the pages. Then smoothscan will convert the dictionary from a set of raster glyphs to a vectorized truetype font, and create a pdf file with all necessary fonts embedded.
+.SH OPTIONS
+.TP
+.I input_files
+input files is the list of 1bpp TIFF files, one file per page.
+.PP
+.B Regular Options:
+.PP
+.TP
+\fB\-o, \-\-output\fR=\fIFILE\fR
+Specify output file
+.TP
+\fB\-t, \-\-thresh\fR=\fIVALUE\fR
+Specify the threshold value (value for correlation). 
+Valid input is from [0.40 - 0.98].
+Recommended values for scanned text from [0.80 - 0.85].
+Default is 0.85.
+.TP
+\fB\-w, \-\-weight\fR=\fIVALUE\fR
+Specify the weight value (correcting threshold for thick characters).
+Valid input is from [0.0 - 1.0]. 
+Recommended values for scanned text from [0.5 - 0.6]. 
+Default is 0.5.
+.TP
+.B\-h, \-\-help
+Display basic usage information.
+.TP
+.B\-v, \-\-version
+Display version information.
+.PP
+.B Debug Options:
+.TP
+\fB \-\-debug\-tmpdir\fR=\fITMPDIR\fR
+Use the specified tmpdir instead of creating a new directory in the system temp directory.
+.TP
+.B \-\-debug\-draw\-borders
+Draw red rectangles around the calculated text positions on the output pdf pages. Useful for making sure glyphs are being positioned correctly.
+.TP
+.B \-\-debug\-render\-pages
+Use the raster dictionary to generate raster images of each page in addition to the vectorized fonts. Useful for inspecting the glyph classification results.
+.TP
+.B \-\-debug\-skip\-font\-gen
+Skip regeneration of the fonts, and just use existing generated fonts in the specified tmpdir. Generating fonts is the longest part of the procedure, so if you aren't debugging the font generation code there is no need to regenerate the font for each test.
+.TP
+.B \-\-debug\-no\-clean\-tmpdir
+Don't delete the tmpdir after processing is complete. Useful for inspecting the generated temporary files (fonts and split characters)
+.PP
+Debug options are only useful if the program is misbehaving and you are trying to diagnose what the problem is. Debug options are also not considered stable, and are very subject to change. Do NOT rely on the presence of debug options in any extension, or script. If a debug option is particularly useful in the general case, it may be upgraded to a normal option, but as long as it has the \fB\-\-debug\-\fR prefix, it could be removed at any time.
+.PP
+.SH AUTHORS
+Nate Craun <nate@natecraun.net>

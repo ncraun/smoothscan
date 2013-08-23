@@ -1,0 +1,13 @@
+Major TODO
+----------
+
+* Support for ScanTailor "Mixed" Images
+* Map symbols from OCR, not just arbitrary code points
+* Multithreaded font generation for speed increase
+
+Minor TODO
+----------
+
+* Windows Support
+* OS X Support
+* Generate other formats such as EPUB and HTML, with web fonts

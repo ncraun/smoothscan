@@ -1,0 +1,43 @@
+smoothscan 0.1.0
+
+Dependencies
+------------
+
+Please install the following dependencies before smoothscan.
+
+leptonica: http://leptonica.com/
+libharu: http://libharu.org/
+potrace: http://potrace.sourceforge.net/
+fontforge (compiled w/ python support): http://fontforge.org/
+python: http://www.python.org/
+
+In order for leptonica to be able to read and write image formats, you
+will have to install the library for that particular image format. See
+the leptonica documentation for more info. In order for smoothscan to
+work properly, leptonica must be compiled with at least tiff and png
+support.
+
+autotrace can be used in place of potrace, but potrace generally
+produces better quality vectorizations.
+
+Downloading
+-----------
+
+First make sure you always download the latest version of the
+software. You can get it from the project's homepage at
+<https://natecraun.net/projects/smoothscan/>
+
+Installation
+------------
+
+Installation follows the standard GNU Autotools procedure:
+
+./configure
+make
+sudo make install
+
+see configure --help for more information on options.
+
+Pay attention to the output from configure. It will warn you if you
+are missing any dependencies or if any problems were encountered with
+the build.
