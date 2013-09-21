@@ -659,7 +659,7 @@ parse_args (int argc, char *argv[])
     {
       int option_index = 0;
 
-      c = getopt_long (argc, argv, "o:t:w:", long_options, &option_index);
+      c = getopt_long (argc, argv, "hvo:t:w:", long_options, &option_index);
 
       if (c == -1)
 	break;
@@ -694,9 +694,20 @@ parse_args (int argc, char *argv[])
 	    args->weight = value;
 	    break;
 	  }
+        case 'h':
+          {
+            args->help_flag = 1;
+            break;
+          }
+        case 'v':
+          {
+            args->version_flag = 1;
+            break;
+          }
 	default:
 	  print_help ();
-	  abort ();
+          free (args);
+          exit (EXIT_SUCCESS);
 	}
     }
 
