@@ -8,21 +8,46 @@ AC_CONFIG_HEADERS([config.h])
 # Checks for programs.
 AC_PROG_CC
 
-AC_CHECK_PROG([FONTFORGE], [fontforge], 1, 0)
-if test $FONTFORGE = 0
+AC_CHECK_PROG([FONTFORGE], [fontforge], [yes], [no])
+if test x$FONTFORGE == x"no"
 then
    AC_MSG_ERROR([fontforge not found])
 fi
-AC_CHECK_PROG([PYTHON], [python], 1, 0)
-if test $PYTHON = 0
+AC_CHECK_PROG([PYTHON], [python], [yes], [no])
+if test x$PYTHON == x"no"
 then
    AC_MSG_ERROR([python not found])
 fi
-AC_CHECK_PROG([POTRACE], [potrace], 1, 0)
-if test $POTRACE = 0
+AC_CHECK_PROG([POTRACE], [potrace], [yes], [no])
+if test x$POTRACE == x"no"
 then
    AC_MSG_ERROR([potrace not found])
 fi
+
+# see what version of python fontforge was compiled for
+
+PY2=`tests/fontforge-python2.py`
+PY3=`tests/fontforge-python3.py`
+
+AC_MSG_CHECKING([fontforge compiled with python2])
+if test x$PY2 == x"yes"
+then
+   AC_MSG_RESULT([yes])
+   AC_SUBST([FONTFORGE_PYTHON_VERSION], [python2])
+else
+   AC_MSG_RESULT([no])
+   AC_MSG_CHECKING([fontforge compiled with python3])
+   if test x$PY3 == x"yes"
+   then
+     AC_MSG_RESULT([yes])
+     AC_SUBST([FONTFORGE_PYTHON_VERSION], [python3])
+     else
+       AC_MSG_RESULT([no])
+       AC_MSG_ERROR([Fontforge was not compiled with python support])
+   fi
+fi
+
+
 # fontforge
 # python
 # potrace
@@ -45,5 +70,7 @@ AC_TYPE_SIZE_T
 AC_FUNC_MALLOC
 AC_CHECK_FUNCS([mkdir strerror])
 
+AC_CONFIG_FILES([src/smoothscan-fontgen.py])
 AC_CONFIG_FILES([Makefile])
+
 AC_OUTPUT
